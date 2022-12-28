@@ -5,13 +5,10 @@ const workos = new WorkOS(process.env.WORKOS_API_KEY);
 export default async (req, res) => {
     if (req.method !== 'POST') return res.status(405)
     try {
-        let redirectURI = `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/callback`
-        redirectURI = redirectURI.startsWith('http') ? redirectURI : `https://${redirectURI}`
-
         const session = await workos.passwordless.createSession({
             email: req.body.email,
             type: 'MagicLink',
-            redirectURI
+            redirectURI: process.env.REDIRECT_URI
         });
 
         res.json({
