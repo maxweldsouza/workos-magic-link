@@ -7,7 +7,7 @@ export default async (req, res) => {
     const { code } = req.query;
 
     if (req.query.error) {
-        return req.status(500).json({
+        return res.status(500).json({
             error: req.query.error,
             error_description: req.query.error_description
         })
