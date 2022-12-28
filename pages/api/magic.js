@@ -11,8 +11,9 @@ export default async (req, res) => {
             redirectURI: process.env.REDIRECT_URI
         });
 
+        await workos.passwordless.sendSession(session.id)
         res.json({
-            redirect: `/check-email?link=${session.link}`
+            redirect: `/check-email`
         });
 
     } catch (e) {
