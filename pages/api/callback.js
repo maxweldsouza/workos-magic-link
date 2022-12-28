@@ -4,7 +4,6 @@ const workos = new WorkOS(process.env.WORKOS_API_KEY);
 const clientID = process.env.WORKOS_CLIENT_ID;
 
 export default async (req, res) => {
-    console.log(req)
     const { code } = req.query;
 
     const { profile } = await workos.sso.getProfileAndToken({
@@ -14,5 +13,14 @@ export default async (req, res) => {
 
     // Use the information in `profile` for further business logic.
 
-    res.redirect('/');
+    if (profile) {
+        return res.json(profile);
+    }
+
+    if (req.query.error) {
+        return req.json({
+            error: req.query.error,
+            error_description: req.query.error_description
+        })
+    }
 };
