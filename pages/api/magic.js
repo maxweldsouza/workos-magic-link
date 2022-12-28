@@ -9,7 +9,7 @@ export default async (req, res) => {
     const session = await workos.passwordless.createSession({
         email: req.body.email,
         type: 'MagicLink',
-        redirectURI: `${process.env.NEXT_PUBLIC_VERCEL_URL}/api/callback`
+        redirectURI: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/callback`
     });
 
     res.json({
