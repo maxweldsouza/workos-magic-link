@@ -29,7 +29,11 @@ export default function Home() {
             })
           })
           const data = await response.json()
-          window.location.href = data.redirect
+          if (!response.ok) {
+            console.log(data)
+          } else {
+            window.location.href = data.redirect
+          }
         }}>
           <input type={'email'} value={email} onChange={e => setEmail(e.target.value)}/>
           <button type={'submit'}>Submit</button>

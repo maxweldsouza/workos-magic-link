@@ -5,10 +5,13 @@ const workos = new WorkOS(process.env.WORKOS_API_KEY);
 export default async (req, res) => {
     if (req.method !== 'POST') return res.status(405)
     try {
+        let redirectURI = `bad${process.env.NEXT_PUBLIC_VERCEL_URL}/api/callback`
+        redirectURI = redirectURI.startsWith('http') ? redirectURI : `https://${redirectURI}`
+
         const session = await workos.passwordless.createSession({
             email: req.body.email,
             type: 'MagicLink',
-            redirectURI: `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/callback`
+            redirectURI
         });
 
         res.json({
@@ -16,6 +19,6 @@ export default async (req, res) => {
         });
 
     } catch (e) {
-        res.status(500).json(e)
+        return res.status(500).json(e)
     }
 };
